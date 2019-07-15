@@ -1,5 +1,5 @@
 {
-  "name": "@teamwork/sharedb",
+  "name": "@soundation/sharedb",
   "version": "3.1.0",
   "description": "JSON OT database backend",
   "main": "lib/index.js",
@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/teamwork/sharedb.git"
+    "url": "git://github.com/soundation/sharedb.git"
   },
   "author": "Nate Smith, Joseph Gentle and Greg Kubisa",
   "license": "MIT"
