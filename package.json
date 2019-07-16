@@ -3,6 +3,7 @@
   "version": "3.1.0",
   "description": "JSON OT database backend",
   "main": "lib/index.js",
+  "types": "index.d.ts",
   "dependencies": {
     "arraydiff": "^0.1.1",
     "async": "^2.6.1",
