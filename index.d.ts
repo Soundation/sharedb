@@ -10,13 +10,6 @@
 import * as ShareDB from './lib/sharedb';
 import { EventEmitter } from 'events';
 
-interface PubSubOptions {
-    prefix?: string;
-}
-interface Stream {
-    id: string;
-}
-
 export = sharedb;
 
 declare class sharedb<S> extends EventEmitter {
@@ -51,17 +44,25 @@ declare class sharedb<S> extends EventEmitter {
 }
 
 declare namespace sharedb {
-  interface LoggerApi {
+  export interface LoggerApi {
     info: (msg: string, ...rest: any[]) => void;
     warn: (msg: string, ...rest: any[]) => void;
     error: (msg: string, ...rest: any[]) => void;
+  }
+
+  export interface PubSubOptions {
+    prefix?: string;
+  }
+
+  export interface Stream {
+    id: string;
   }
 
   export interface Logger extends LoggerApi {
     setMethods(logger: LoggerApi): void;
   }
 
-  abstract class DB {
+  export abstract class DB {
     projectsSnapshots: boolean;
     disableSubscribe: boolean;
     close(callback?: () => void): void;
@@ -79,9 +80,9 @@ declare namespace sharedb {
     skipPoll(): boolean;
   }
 
-  class MemoryDB extends DB { }
+  export class MemoryDB extends DB { }
 
-  abstract class PubSub {
+  export abstract class PubSub {
     private static shallowCopy(obj: any): any;
     protected prefix?: string;
     protected nextStreamId: number;
@@ -104,14 +105,14 @@ declare namespace sharedb {
     private _removeStream(channel, stream): void;
   }
 
-  class Connection {
+  export class Connection {
     constructor(ws: WebSocket);
     get(collectionName: string, documentID: string): ShareDB.Doc;
     createFetchQuery(collectionName: string, query: string, options: {results?: ShareDB.Query[]}, callback: (err: Error, results: any) => any): ShareDB.Query;
     createSubscribeQuery(collectionName: string, query: string, options: {results?: ShareDB.Query[]}, callback: (err: Error, results: any) => any): ShareDB.Query;
   }
 
-  class Agent<S> {
+  export class Agent<S> {
     clientId: string;
     connectTime: number;
     closed: boolean;
@@ -121,24 +122,24 @@ declare namespace sharedb {
   }
 
   export type NextFn = (err?: any) => void;
-  type Doc = ShareDB.Doc;
-  type Query = ShareDB.Query;
-  type Error = ShareDB.Error;
-  type Op = ShareDB.Op;
-  type AddNumOp = ShareDB.AddNumOp;
-  type ListMoveOp = ShareDB.ListMoveOp;
-  type ListInsertOp = ShareDB.ListInsertOp;
-  type ListDeleteOp = ShareDB.ListDeleteOp;
-  type ListReplaceOp = ShareDB.ListReplaceOp;
-  type StringInsertOp = ShareDB.StringInsertOp;
-  type StringDeleteOp = ShareDB.StringDeleteOp;
-  type ObjectInsertOp = ShareDB.ObjectInsertOp;
-  type ObjectDeleteOp = ShareDB.ObjectDeleteOp;
-  type ObjectReplaceOp = ShareDB.ObjectReplaceOp;
-  type SubtypeOp = ShareDB.SubtypeOp;
+  export type Doc = ShareDB.Doc;
+  export type Query = ShareDB.Query;
+  export type Error = ShareDB.Error;
+  export type Op = ShareDB.Op;
+  export type AddNumOp = ShareDB.AddNumOp;
+  export type ListMoveOp = ShareDB.ListMoveOp;
+  export type ListInsertOp = ShareDB.ListInsertOp;
+  export type ListDeleteOp = ShareDB.ListDeleteOp;
+  export type ListReplaceOp = ShareDB.ListReplaceOp;
+  export type StringInsertOp = ShareDB.StringInsertOp;
+  export type StringDeleteOp = ShareDB.StringDeleteOp;
+  export type ObjectInsertOp = ShareDB.ObjectInsertOp;
+  export type ObjectDeleteOp = ShareDB.ObjectDeleteOp;
+  export type ObjectReplaceOp = ShareDB.ObjectReplaceOp;
+  export type SubtypeOp = ShareDB.SubtypeOp;
 
-  type Path = ShareDB.Path;
-  type ShareDBSourceOptions = ShareDB.ShareDBSourceOptions;
+  export type Path = ShareDB.Path;
+  export type ShareDBSourceOptions = ShareDB.ShareDBSourceOptions;
 
   export interface Projection {
     target: string;
@@ -169,7 +170,7 @@ declare namespace sharedb {
   }
 
   namespace middleware {
-    interface ActionContextMap<S> {
+    export interface ActionContextMap<S> {
       afterSubmit: SubmitContext<S>;
       apply: ApplyContext<S>;
       commit: CommitContext<S>;
@@ -183,7 +184,7 @@ declare namespace sharedb {
       submit: SubmitContext<S>;
     }
 
-    interface BaseContext<S> {
+    export interface BaseContext<S> {
       action: keyof ActionContextMap<S>;
       agent: Agent<S>;
       backend: sharedb<S>;
@@ -239,7 +240,7 @@ declare namespace sharedb {
       reply: ShareDB.JSONObject;
     }
 
-    type SnapshotType = 'current' | 'byVersion' | 'byTimestamp';
+    export type SnapshotType = 'current' | 'byVersion' | 'byTimestamp';
 
     export interface SubmitContext<S> extends BaseContext<S>, SubmitRequest {
     }
