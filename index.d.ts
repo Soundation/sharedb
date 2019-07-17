@@ -16,6 +16,12 @@ declare class sharedb<S> extends EventEmitter {
 
   static logger: sharedb.Logger;
 
+  public db: sharedb.DB;
+  public pubsub: sharedb.PubSub;
+  public middleware: {
+    [A in keyof sharedb.middleware.ActionContextMap<S>]: ((context: sharedb.middleware.ActionContextMap<S>[A], callback: sharedb.NextFn) => void)[];
+  }
+
   constructor(options?: {db?: any, pubsub?: sharedb.PubSub, disableDocAction?: boolean, disableSpaceDelimitedActions?: boolean});
   connect: (connection?: any, req?: S) => sharedb.Connection;
   /**
