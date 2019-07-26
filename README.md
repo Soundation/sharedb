@@ -261,7 +261,7 @@ changes. Returns a [`ShareDB.Query`](#class-sharedbquery) instance.
 * `options.*`
   All other options are passed through to the database adapter.
 
-`connection.createUndoManager(options)` creates a new `UndoManager`.
+`connection.createUndoManager([options])` creates a new `UndoManager`.
 
 * `options.source` if specified, only the operations from that `source` will be undo-able. If `null` or `undefined`, the `source` filter is disabled.
 * `options.limit` the max number of operations to keep on the undo stack.
@@ -460,7 +460,7 @@ Return `true`, if there's an operation on the redo stack that can be undone, oth
 Redo a previously applied undo operation.
 * `options.source` Argument passed to the `'op'` event locally. This is not sent to the server or other clients. Defaults to `true`.
 
-`undoManager.clear(doc)`
+`undoManager.clear([doc])`
 Remove operations from the undo and redo stacks.
 * `doc` if specified, only the operations on that doc are removed, otherwise all operations are removed.
 

@@ -1,12 +1,14 @@
 /// <reference path="sharedb.d.ts" />
 import * as WS from 'ws';
 import * as ShareDB from './sharedb';
+import {IUndoManagerOptions, UndoManager} from "./client/undoManager";
 
 export class Connection {
     constructor(ws: WebSocket | WS);
     get(collectionName: string, documentID: string): Doc;
     createFetchQuery(collectionName: string, query: string, options: {results?: Query[]}, callback: (err: Error, results: any) => any): Query;
     createSubscribeQuery(collectionName: string, query: string, options: {results?: Query[]}, callback: (err: Error, results: any) => any): Query;
+    createUndoManager(options?: IUndoManagerOptions): UndoManager;
 }
 export type Doc = ShareDB.Doc;
 export type Query = ShareDB.Query;

@@ -57,7 +57,11 @@ export interface Error {
 export interface ShareDBSourceOptions { source?: boolean; }
 // interface ShareDBCreateOptions extends ShareDBSourceOptions {}
 // interface ShareDBDelOptions extends ShareDBSourceOptions {}
-// interface ShareDBSubmitOpOptions extends ShareDBSourceOptions {}
+interface ShareDBSubmitOpOptions extends ShareDBSourceOptions {
+  skipNoop?: boolean;
+  undoable?: boolean;
+  fixUp?: boolean;
+}
 
 export type Callback = (err: Error) => any;
 
@@ -87,7 +91,7 @@ export class Doc extends EventEmitter {
     create(data: any, callback?: Callback): void;
     create(data: any, type?: OTType, callback?: Callback): void;
     create(data: any, type?: OTType, options?: ShareDBSourceOptions, callback?: Callback): void;
-    submitOp(data: ReadonlyArray<Op>, options?: ShareDBSourceOptions, callback?: Callback): void;
+    submitOp(data: ReadonlyArray<Op>, options?: ShareDBSubmitOpOptions, callback?: Callback): void;
     del(options: ShareDBSourceOptions, callback: (err: Error) => void): void;
     whenNothingPending(callback: (err: Error) => void): void;
 }
