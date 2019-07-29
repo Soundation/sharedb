@@ -376,6 +376,56 @@ describe('client subscribe', function() {
     });
   });
 
+  it('subscribed client with handleOpsSeparately = true handles each op from other client separately', function(done) {
+    var doc = this.backend.connect().get('dogs', 'fido');
+    var doc2 = this.backend.connect().get('dogs', 'fido');
+    doc.create({age: 3, color: 'pink'}, function(err) {
+      if (err) return done(err);
+      doc2.subscribe(function(err) {
+        if (err) return done(err);
+
+        var callId = 0;
+
+        doc2.on('op', function(op, context) {
+          if (callId === 0) {
+            expect(doc2.version).eql(2);
+            expect(doc2.data).eql({age: 4, color: 'pink'});
+          } else if (callId === 1) {
+            expect(doc2.version).eql(2);
+            expect(doc2.data).eql({age: 4, color: 'blue'});
+            done();
+          }
+          ++callId;
+        });
+        doc.submitOp([
+          {p: ['age'], na: 1},
+          {p: ['color'], od: 'pink', oi: 'blue'},
+        ]);
+      }, {handleOpsSeparately: true});
+    });
+  });
+
+  it('subscribed client with handleOpsSeparately = false handles all ops from other client together', function(done) {
+    var doc = this.backend.connect().get('dogs', 'fido');
+    var doc2 = this.backend.connect().get('dogs', 'fido');
+    doc.create({age: 3, color: 'pink'}, function(err) {
+      if (err) return done(err);
+      doc2.subscribe(function(err) {
+        if (err) return done(err);
+
+        doc2.on('op', function(op, context) {
+          expect(doc2.version).eql(2);
+          expect(doc2.data).eql({age: 4, color: 'blue'});
+          done();
+        });
+        doc.submitOp([
+          {p: ['age'], na: 1},
+          {p: ['color'], od: 'pink', oi: 'blue'},
+        ]);
+      }, {handleOpsSeparately: false});
+    });
+  });
+
   it('disconnecting stops op updates', function(done) {
     var doc = this.backend.connect().get('dogs', 'fido');
     var doc2 = this.backend.connect().get('dogs', 'fido');

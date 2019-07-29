@@ -65,6 +65,10 @@ interface ShareDBSubmitOpOptions extends ShareDBSourceOptions {
 
 export type Callback = (err: Error) => any;
 
+export interface ShareDBSubscribeOptions {
+  handleOpsSeparately?: boolean;
+}
+
 export type DocEvent = 'load' | 'create' | 'before op' | 'op' | 'del' | 'error' | 'no write pending' | 'nothing pending';
 
 export class Doc extends EventEmitter {
@@ -72,7 +76,7 @@ export class Doc extends EventEmitter {
     id: string;
     data: any;
     fetch: (callback: (err: Error) => void) => void;
-    subscribe: (callback: (err: Error) => void) => void;
+    subscribe: (callback: (err: Error) => void, options?: ShareDBSubscribeOptions) => void;
 
     on(event: 'load' | 'no write pending' | 'nothing pending', callback: () => void): this;
     on(event: 'create', callback: (source: boolean) => void): this;
