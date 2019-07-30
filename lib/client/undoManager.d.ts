@@ -1,13 +1,13 @@
 import {Connection, Doc} from "../client";
 
 export interface IUndoManagerOptions {
-  source?: string
+  source?: any
   limit?: number
   composeInterval?: number
 }
 
 export interface IUndoManagerUndoOptions {
-  source?: boolean
+  source?: any
 }
 
 type UndoCallback = (err: any) => any
