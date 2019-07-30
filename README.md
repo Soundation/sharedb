@@ -326,9 +326,11 @@ Each property under `doc.presence` contains presence data shared by a client sub
 `doc.fetch(function(err) {...})`
 Populate the fields on `doc` with a snapshot of the document from the server.
 
-`doc.subscribe(function(err) {...})`
+`doc.subscribe(function(err) {...}[, options])`
 Populate the fields on `doc` with a snapshot of the document from the server, and
 fire events on subsequent changes.
+
+* `options.handleOpsSeparately` Whether to emit separate 'op' event for each incoming component operation. Should be set to true if handling an operation may result in submitting another operation. Defaults to `true`
 
 `doc.ingestSnapshot(snapshot, callback)`
 Ingest snapshot data. The `snapshot` param must include the fields `v` (doc version), `data`, and `type` (OT type). This method is generally called interally as a result of fetch or subscribe and not directly from user code. However, it may still be called directly from user code to pass data that was transferred to the client external to the client's ShareDB connection, such as snapshot data sent along with server rendering of a webpage.
@@ -532,6 +534,7 @@ Additional fields may be added to the error object for debugging context dependi
 * 4027 - OT Type does not support `diff` nor `diffX`
 * 4028 - OT Type does not support `invert` nor `applyAndInvert`
 * 4029 - OT Type does not support presence
+* 4030 - Cannot submit new op in op handler if not handling ops separately
 
 ### 5000 - Internal error
 
