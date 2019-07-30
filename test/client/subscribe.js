@@ -426,6 +426,36 @@ describe('client subscribe', function() {
     });
   });
 
+  it('subscribed client with handleOpsSeparately = false throws an error if submitted op synchronously', function(done) {
+    var doc = this.backend.connect().get('dogs', 'fido');
+    var doc2 = this.backend.connect().get('dogs', 'fido');
+    doc.create({age: 3, color: 'pink'}, function(err) {
+      if (err) return done(err);
+      doc2.subscribe(function(err) {
+        if (err) return done(err);
+
+        doc2.on('op', function(op, context) {
+          expect(doc2.version).eql(2);
+          expect(doc2.data).eql({age: 4, color: 'blue'});
+
+          doc2.submitOp([
+            {p: ['color'], od: 'blue', oi: 'azure'}
+          ], (err) => {
+            expect(err).eql({
+              code: 4030,
+            })
+            done()
+          })
+
+        });
+        doc.submitOp([
+          {p: ['age'], na: 1},
+          {p: ['color'], od: 'pink', oi: 'blue'},
+        ]);
+      }, {handleOpsSeparately: false});
+    });
+  });
+
   it('disconnecting stops op updates', function(done) {
     var doc = this.backend.connect().get('dogs', 'fido');
     var doc2 = this.backend.connect().get('dogs', 'fido');

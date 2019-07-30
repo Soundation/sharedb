@@ -534,6 +534,7 @@ Additional fields may be added to the error object for debugging context dependi
 * 4027 - OT Type does not support `diff` nor `diffX`
 * 4028 - OT Type does not support `invert` nor `applyAndInvert`
 * 4029 - OT Type does not support presence
+* 4030 - Cannot submit new op in op handler if not handling ops separately
 
 ### 5000 - Internal error
 
