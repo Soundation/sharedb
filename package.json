@@ -1,10 +1,11 @@
 {
   "name": "@soundation/sharedb",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "JSON OT database backend",
   "main": "lib/index.js",
   "types": "index.d.ts",
   "dependencies": {
+    "@types/ws": "^6.0.1",
     "arraydiff": "^0.1.1",
     "async": "^2.6.1",
     "deep-is": "^0.1.3",
