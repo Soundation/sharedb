@@ -3,14 +3,15 @@ import * as WS from 'ws';
 import * as ShareDB from './sharedb';
 import {IUndoManagerOptions, UndoManager} from "./client/undoManager";
 
-export class Connection {
+export class Connection<P = any> {
+    public id: string;
     constructor(ws: WebSocket | WS);
-    get(collectionName: string, documentID: string): Doc;
+    get(collectionName: string, documentID: string): Doc<P>;
     createFetchQuery(collectionName: string, query: string, options: {results?: Query[]}, callback: (err: Error, results: any) => any): Query;
     createSubscribeQuery(collectionName: string, query: string, options: {results?: Query[]}, callback: (err: Error, results: any) => any): Query;
     createUndoManager(options?: IUndoManagerOptions): UndoManager;
 }
-export type Doc = ShareDB.Doc;
+export type Doc<P = any> = ShareDB.Doc<P>;
 export type Query = ShareDB.Query;
 export type Error = ShareDB.Error;
 export type Op = ShareDB.Op;

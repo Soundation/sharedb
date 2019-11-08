@@ -71,10 +71,11 @@ export interface ShareDBSubscribeOptions {
 
 export type DocEvent = 'load' | 'create' | 'before op' | 'op' | 'del' | 'error' | 'no write pending' | 'nothing pending';
 
-export class Doc extends EventEmitter {
+export class Doc<P = any> extends EventEmitter {
     type: string;
     id: string;
     data: any;
+    presence: P;
     fetch: (callback: (err: Error) => void) => void;
     subscribe: (callback: (err: Error) => void, options?: ShareDBSubscribeOptions) => void;
 
@@ -83,6 +84,7 @@ export class Doc extends EventEmitter {
     on(event: 'op' | 'before op', callback: (ops: Op[], source: any) => void): this;
     on(event: 'del', callback: (data: any, source: any) => void): this;
     on(event: 'error', callback: (err: Error) => void): this;
+    on(event: 'presence', callback: (source: any) => void): this;
 
     addListener(event: 'load' | 'no write pending' | 'nothing pending', callback: () => void): this;
     addListener(event: 'create', callback: (source: any) => void): this;
@@ -98,6 +100,7 @@ export class Doc extends EventEmitter {
     submitOp(data: ReadonlyArray<Op>, options?: ShareDBSubmitOpOptions, callback?: Callback): void;
     del(options: ShareDBSourceOptions, callback: (err: Error) => void): void;
     whenNothingPending(callback: (err: Error) => void): void;
+    submitPresence(presence: P, callback: (err: Error) => void): void;
 }
 
 export type QueryEvent = 'ready' | 'error' | 'changed' | 'insert' | 'move' | 'remove' | 'extra';
