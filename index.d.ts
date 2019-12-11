@@ -123,6 +123,7 @@ declare namespace sharedb {
     connectTime: number;
     closed: boolean;
     close: (err?: Error) => void;
+    send: (msg: any) => void;
     session: S;
     custom: any;
   }
