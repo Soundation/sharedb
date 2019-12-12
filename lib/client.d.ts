@@ -3,9 +3,14 @@ import * as WS from 'ws';
 import * as ShareDB from './sharedb';
 import {IUndoManagerOptions, UndoManager} from "./client/undoManager";
 
+export interface MsgEncoder {
+    encode: (data: any) => any;
+    decode: (data: any) => any;
+}
+
 export class Connection<P = any> {
     public id: string;
-    constructor(ws: WebSocket | WS);
+    constructor(ws: WebSocket | WS, encoder?: MsgEncoder);
     get(collectionName: string, documentID: string): Doc<P>;
     createFetchQuery(collectionName: string, query: string, options: {results?: Query[]}, callback: (err: Error, results: any) => any): Query;
     createSubscribeQuery(collectionName: string, query: string, options: {results?: Query[]}, callback: (err: Error, results: any) => any): Query;
