@@ -574,6 +574,7 @@ types.register(presenceType.type3);
         this.doc.create.bind(this.doc, {}),
         this.doc.subscribe.bind(this.doc),
         function(done) {
+          this.doc.type = { ...this.doc.type, createPresence: undefined, transformPresence: undefined };
           this.doc.submitPresence(p(0), function(err) {
             expect(err).to.be.an(Error);
             expect(err.code).to.equal(4029);
@@ -588,6 +589,7 @@ types.register(presenceType.type3);
         this.doc.create.bind(this.doc, {}),
         this.doc.subscribe.bind(this.doc),
         function(done) {
+          this.doc.type = { ...this.doc.type, createPresence: undefined, transformPresence: undefined };
           this.doc.on('error', function(err) {
             expect(err).to.be.an(Error);
             expect(err.code).to.equal(4029);
