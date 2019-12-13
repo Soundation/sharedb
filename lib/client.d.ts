@@ -21,6 +21,7 @@ export class Connection<P = any> {
     createUndoManager(options?: IUndoManagerOptions): UndoManager;
     send(message: any): void;
     on(event: ConnectionEvent, handler: (...args: any[]) => any): void;
+    off(event: ConnectionEvent, handler: (...args: any[]) => any): void;
 }
 export type Doc<P = any> = ShareDB.Doc<P>;
 export type Query = ShareDB.Query;
