@@ -9,13 +9,18 @@ export interface MsgEncoder {
     decodeAsync?: boolean;
 }
 
+export type ConnectionEvent = 'error' | 'connected' | 'connecting' | 'disconnected' | 'send' | 'receive' | 'state' | 'doc' | 'connection error' | 'closed' | 'stopped'
+
 export class Connection<P = any> {
     public id: string;
+    public canSend: boolean;
     constructor(ws: WebSocket | WS, encoder?: MsgEncoder);
     get(collectionName: string, documentID: string): Doc<P>;
     createFetchQuery(collectionName: string, query: string, options: {results?: Query[]}, callback: (err: Error, results: any) => any): Query;
     createSubscribeQuery(collectionName: string, query: string, options: {results?: Query[]}, callback: (err: Error, results: any) => any): Query;
     createUndoManager(options?: IUndoManagerOptions): UndoManager;
+    send(message: any): void;
+    on(event: ConnectionEvent, handler: (...args: any[]) => any);
 }
 export type Doc<P = any> = ShareDB.Doc<P>;
 export type Query = ShareDB.Query;
