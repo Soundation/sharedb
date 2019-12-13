@@ -20,7 +20,7 @@ export class Connection<P = any> {
     createSubscribeQuery(collectionName: string, query: string, options: {results?: Query[]}, callback: (err: Error, results: any) => any): Query;
     createUndoManager(options?: IUndoManagerOptions): UndoManager;
     send(message: any): void;
-    on(event: ConnectionEvent, handler: (...args: any[]) => any);
+    on(event: ConnectionEvent, handler: (...args: any[]) => any): void;
 }
 export type Doc<P = any> = ShareDB.Doc<P>;
 export type Query = ShareDB.Query;
