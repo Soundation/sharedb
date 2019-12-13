@@ -22,6 +22,8 @@ export class Connection<P = any> {
     send(message: any): void;
     on(event: ConnectionEvent, handler: (...args: any[]) => any): void;
     off(event: ConnectionEvent, handler: (...args: any[]) => any): void;
+    addListener(event: ConnectionEvent, handler: (...args: any[]) => any): void;
+    removeListener(event: ConnectionEvent, handler: (...args: any[]) => any): void;
 }
 export type Doc<P = any> = ShareDB.Doc<P>;
 export type Query = ShareDB.Query;
