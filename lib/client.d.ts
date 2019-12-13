@@ -6,6 +6,7 @@ import {IUndoManagerOptions, UndoManager} from "./client/undoManager";
 export interface MsgEncoder {
     encode: (data: any) => any;
     decode: (data: any) => any;
+    decodeAsync?: boolean;
 }
 
 export class Connection<P = any> {
