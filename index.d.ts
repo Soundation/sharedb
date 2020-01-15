@@ -111,7 +111,12 @@ declare namespace sharedb {
     private _removeStream(channel, stream): void;
   }
 
-  export class MemoryPubSub extends PubSub { }
+  export class MemoryPubSub extends PubSub {
+    constructor(options?: PubSubOptions);
+    protected _subscribe(channel: string, callback: (err: Error | null) => void): void;
+    protected _unsubscribe(channel: string, callback: (err: Error | null) => void): void;
+    protected _publish(channels: string[], data: any, callback: (err: Error | null) => void): void;
+  }
 
   export class Connection {
     constructor(ws: WebSocket);
