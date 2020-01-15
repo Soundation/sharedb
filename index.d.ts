@@ -111,6 +111,8 @@ declare namespace sharedb {
     private _removeStream(channel, stream): void;
   }
 
+  export class MemoryPubSub extends PubSub { }
+
   export class Connection {
     constructor(ws: WebSocket);
     get(collectionName: string, documentID: string): ShareDB.Doc;
