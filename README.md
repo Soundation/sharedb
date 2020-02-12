@@ -562,3 +562,4 @@ The `41xx` and `51xx` codes are reserved for use by ShareDB DB adapters, and the
 * 5020 - saveMilestoneSnapshot MilestoneDB method unimplemented
 * 5021 - getMilestoneSnapshotAtOrBeforeTime MilestoneDB method unimplemented
 * 5022 - getMilestoneSnapshotAtOrAfterTime MilestoneDB method unimplemented
+* 5023 - getChangelog DB method unimplemented

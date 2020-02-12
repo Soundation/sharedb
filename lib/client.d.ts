@@ -11,6 +11,12 @@ export interface MsgEncoder {
 
 export type ConnectionEvent = 'error' | 'connected' | 'connecting' | 'disconnected' | 'send' | 'receive' | 'state' | 'doc' | 'connection error' | 'closed' | 'stopped'
 
+export interface ChangelogOptions {
+    bucket?: number;
+    sources?: boolean;
+    since?:  number;
+}
+
 export class Connection<P = any> {
     public id: string;
     public canSend: boolean;
@@ -24,6 +30,11 @@ export class Connection<P = any> {
     off(event: ConnectionEvent, handler: (...args: any[]) => any): void;
     addListener(event: ConnectionEvent, handler: (...args: any[]) => any): void;
     removeListener(event: ConnectionEvent, handler: (...args: any[]) => any): void;
+    fetchSnapshot(collection: string, id: string, version: number | null, callback: (err: Error | null, snapshot: ShareDB.Snapshot) => any): any;
+    fetchSnapshot(collection: string, id: string, callback: (err: Error | null, snapshot: ShareDB.Snapshot) => any): any;
+    fetchChangelog(collection: string, id: string, options: ChangelogOptions & { sources: true }, callback: (err: Error | null, changelog: ShareDB.Changelog<ShareDB.ChangelogEntryWithSources>) => any): any;
+    fetchChangelog(collection: string, id: string, options: ChangelogOptions | null, callback: (err: Error | null, changelog: ShareDB.Changelog) => any): any;
+    fetchChangelog(collection: string, id: string, callback: (err: Errro | null, changelog: ShareDB.Changelog) => any): any;
 }
 export type Doc<P = any> = ShareDB.Doc<P>;
 export type Query = ShareDB.Query;

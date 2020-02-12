@@ -15,6 +15,22 @@ export interface Snapshot {
     m: SnapshotMeta | null;
 }
 
+export interface ChangelogEntry  {
+    t1: number;
+    t2: number;
+    v1: number;
+    v2: number;
+    c: number;
+}
+export interface ChangelogEntryWithSources extends ChangelogEntry {
+    src: string[];
+}
+
+export interface Changelog<T extends ChangelogEntry = ChangelogEntry> {
+    id: string;
+    data: T[];
+}
+
 export interface SnapshotMeta {
     ctime: number;
     mtime: number;
@@ -114,7 +130,7 @@ export class Query extends EventEmitter {
     destroy(): void;
 }
 
-export type RequestAction = 'qf' | 'qs' | 'qu' | 'bf' | 'bs' | 'bu' | 'f' | 's' | 'u' | 'op' | 'nf' | 'nt';
+export type RequestAction = 'qf' | 'qs' | 'qu' | 'bf' | 'bs' | 'bu' | 'f' | 's' | 'u' | 'op' | 'nf' | 'nt' | 'nc';
 
 export interface ClientRequest {
     /** Short name of the request's action */

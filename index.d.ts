@@ -196,6 +196,7 @@ declare namespace sharedb {
       receive: ReceiveContext<S>;
       reply: ReplyContext<S>;
       submit: SubmitContext<S>;
+      readChangelog: ReadChangelogContext<S>;
     }
 
     export interface BaseContext<S> {
@@ -257,6 +258,13 @@ declare namespace sharedb {
     export type SnapshotType = 'current' | 'byVersion' | 'byTimestamp';
 
     export interface SubmitContext<S> extends BaseContext<S>, SubmitRequest {
+    }
+
+    export interface ReadChangelogContext<S> extends BaseContext<S> {
+      collection: string;
+      id: string;
+      options: any;
+      changelog: any;
     }
   }
 }
