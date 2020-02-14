@@ -84,5 +84,52 @@ module.exports = function(create) {
       });
       this.pubsub.emit('error', new Error('test error'));
     });
+
+    it('should return incrementing seq', function(done) {
+      var pubsub = this.pubsub;
+
+      function next(i) {
+        if(i > 1000) {
+          return done();
+        }
+
+        pubsub.requestIdSeq('id', function(err, seq) {
+          if(err) { return done(err); }
+          expect(seq).to.equal(i);
+          next(i + 1);
+        })
+      }
+
+      next(0);
+    });
+
+    it('should re-use seq', function(done) {
+      var pubsub = this.pubsub;
+
+      pubsub.requestIdSeq('id', function(err, seq) {
+        if(err) { return done(err); }
+        expect(seq).to.equal(0);
+        pubsub.requestIdSeq('id', function(err, seq) {
+          if(err) { return done(err); }
+          expect(seq).to.equal(1);
+          pubsub.requestIdSeq('id', function(err, seq) {
+            if(err) { return done(err); }
+            expect(seq).to.equal(2);
+            pubsub.resignIdSeq('id', 1, function(err) {
+              if(err) { return done(err); }
+              pubsub.requestIdSeq('id', function(err, seq) {
+                if(err) { return done(err); }
+                expect(seq).to.equal(1);
+                pubsub.requestIdSeq('id', function(err, seq) {
+                  if(err) { return done(err); }
+                  expect(seq).to.equal(3);
+                  done();
+                });
+              });
+            });
+          });
+        });
+      });
+    });
   });
 };

@@ -16,6 +16,7 @@ declare class sharedb<S> extends EventEmitter {
 
   static logger: sharedb.Logger;
 
+  public closing: boolean;
   public db: sharedb.DB;
   public pubsub: sharedb.PubSub;
   public middleware: {
@@ -32,8 +33,9 @@ declare class sharedb<S> extends EventEmitter {
    * @param fields field whitelist for the projection
    */
   addProjection(name: string, collection: string, fields: sharedb.ProjectionFields): void;
-  listen(stream: any, request?: S): void;
+  listen(stream: any, request?: S, remoteId?: string): void;
   close(callback?: (err?: Error) => any): void;
+  drain(timeout: number, callback?: (err?: Error) => any): void;
   /**
    * Registers a server middleware function.
    *
@@ -103,6 +105,8 @@ declare namespace sharedb {
     close(callback?: (err: Error|null) => void): void;
     publish(channels: string[], data: {[k: string]: any}, callback: (err: Error | null) => void): void;
     subscribe(channel: string, callback: (err: Error | null, stream?: Stream) => void): void;
+    requestIdSeq(id: string, callback: (err: Error | null, seq: number) => void): void;
+    resignIdSeq(id: string, seq: number, callback: (err: Error | null) => void): void;
     protected abstract _subscribe(channel: string, callback: (err: Error | null) => void): void;
     protected abstract _unsubscribe(channel: string, callback: (err: Error | null) => void): void;
     protected abstract _publish(channels: string[], data: any, callback: (err: Error | null) => void): void;
