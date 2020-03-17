@@ -369,6 +369,7 @@ Create the document locally and send create operation to the server.
 * `type` _([OT type](https://github.com/teamwork/ot-docs))_
   Defaults to `'ot-json0'`, for which `data` is an Object
 * `options.source` Argument passed to the `'create'` event locally. This is not sent to the server or other clients. Defaults to `true`.
+* `function(err) {...}` Called once creating a document is finished. If the callback is defined, any errors that occur due to document creation will not be caught by `doc.on('error')` unless the callback function returns `false`
 
 `doc.submitOp(op, [, options][, function(err) {...}])`
 Apply operation to document and send it to the server.
@@ -379,6 +380,7 @@ Call this after you've either fetched or subscribed to the document.
 * `options.skipNoop` Should processing be skipped entirely, if `op` is a no-op. Defaults to `false`.
 * `options.undoable` Should it be possible to undo this operation. Defaults to `false`.
 * `options.fixUp` If true, this operation is meant to fix the current invalid state of the snapshot. It also updates UndoManagers accordingly. This feature requires the OT type to implement `compose`.
+* `function(err) {...}` Called once submitting ops is finished. If the callback is defined, any errors that occur due to submitting ops will not be caught by `doc.on('error')` unless the callback function returns `false`
 
 `doc.submitSnapshot(snapshot[, options][, function(err) {...}])`
 Diff the current and the provided snapshots to generate an operation, apply the operation to the document and send it to the server.
@@ -389,13 +391,15 @@ Call this after you've either fetched or subscribed to the document.
 * `options.undoable` Should it be possible to undo this operation. Defaults to `false`.
 * `options.fixUp` If true, this operation is meant to fix the current invalid state of the snapshot. It also updates UndoManagers accordingly. This feature requires the OT type to implement `compose`.
 * `options.diffHint` A hint passed into the `diff`/`diffX` functions defined by the document type.
+* `function(err) {...}` Called once submitting a snapshot is finished. If the callback is defined, any errors that occur due to submitting a snapshot will not be caught by `doc.on('error')` unless the callback function returns `false`
 
 `doc.del([options][, function(err) {...}])`
 Delete the document locally and send delete operation to the server.
 Call this after you've either fetched or subscribed to the document.
 * `options.source` Argument passed to the `'del'` event locally. This is not sent to the server or other clients. Defaults to `true`.
+* `function(err) {...}` Called once deleting a document is finished. If the callback is defined, any errors that occur due to document deletion will not be caught by `doc.on('error')` unless the callback function returns `false`
 
-`doc.whenNothingPending(function(err) {...})`
+`doc.whenNothingPending(function() {...})`
 Invokes the given callback function after
 
  * all ops submitted via `doc.submitOp` have been sent to the server, and
@@ -406,7 +410,8 @@ Note that `whenNothingPending` does NOT wait for pending `model.query()` calls.
 `doc.submitPresence(presenceData[, function(err) {...}])`
 Set local presence data and publish it for other clients.
 
-`presenceData` structure depends on the document type.
+* `presenceData` structure depends on the document type.
+* `function(err) {...}` Called once submitting a presence is finished. If the callback is defined, any errors that occur due to presence submission will not be caught by `doc.on('error')` unless the callback function returns `false`
 Presence is synchronized only when subscribed to the document.
 
 ### Class: `ShareDB.Query`
