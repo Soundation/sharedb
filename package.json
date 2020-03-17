@@ -1,6 +1,6 @@
 {
   "name": "@soundation/sharedb",
-  "version": "4.4.1",
+  "version": "4.4.2",
   "description": "JSON OT database backend",
   "main": "lib/index.js",
   "types": "index.d.ts",
