@@ -34,7 +34,7 @@ export class Connection<P = any> {
     fetchSnapshot(collection: string, id: string, callback: (err: Error | null, snapshot: ShareDB.Snapshot) => any): any;
     fetchChangelog(collection: string, id: string, options: ChangelogOptions & { sources: true }, callback: (err: Error | null, changelog: ShareDB.Changelog<ShareDB.ChangelogEntryWithSources>) => any): any;
     fetchChangelog(collection: string, id: string, options: ChangelogOptions | null, callback: (err: Error | null, changelog: ShareDB.Changelog) => any): any;
-    fetchChangelog(collection: string, id: string, callback: (err: Errro | null, changelog: ShareDB.Changelog) => any): any;
+    fetchChangelog(collection: string, id: string, callback: (err: Error | null, changelog: ShareDB.Changelog) => any): any;
 }
 export type Doc<P = any> = ShareDB.Doc<P>;
 export type Query = ShareDB.Query;
