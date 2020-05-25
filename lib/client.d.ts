@@ -9,7 +9,7 @@ export interface MsgEncoder {
     decodeAsync?: boolean;
 }
 
-export type ConnectionEvent = 'error' | 'connected' | 'connecting' | 'disconnected' | 'send' | 'receive' | 'state' | 'doc' | 'connection error' | 'closed' | 'stopped'
+export type ConnectionEvent = 'error' | 'connected' | 'connecting' | 'disconnected' | 'send' | 'receive' | 'state' | 'doc' | 'connection error' | 'closed' | 'stopped' | 'notification'
 
 export interface ChangelogOptions {
     bucket?: number;
